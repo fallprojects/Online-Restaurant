@@ -16,29 +16,33 @@ class Menu(models.Model):
     menu_types = models.CharField(max_length=100, choices=category)
     description = models.CharField(max_length=100)
     weight = models.IntegerField(default=0)
-    price = models.IntegerField()
+    price = models.IntegerField(default=0)
 
 
     def __str__(self):
         return self.name
 
 
+
 class Table(models.Model):
     table_number = models.IntegerField(default=0)
 
+
 class Waiter(models.Model):
-    waiter = models.CharField(max_length=50)
+    waiter_name = models.CharField(max_length=50)
 
 
 class Order(models.Model):
-    meal = models.ForeignKey('Menu', on_delete=models.SET_NULL, null=True)
     table_number = models.ForeignKey('Table', on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField(auto_now_add=True)
     waiter = models.ForeignKey('Waiter', on_delete=models.SET_NULL, null=True)
-    total_price = 0
 
 
 
-
-
+class MenuToOrder(models.Model):
+    amounts = models.IntegerField(default=0)
+    order = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True)
+    meal = models.ForeignKey('Menu', on_delete=models.SET_NULL, null=True)
+    sales = models.BooleanField()
+    percent = models.IntegerField()
 
