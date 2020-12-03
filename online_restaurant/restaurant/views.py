@@ -30,19 +30,32 @@ class OrderView(APIView):
         return Response(serializer.data,status=status.HTTP_201_CREATED)
 
 
+class MenuToOrderView(viewsets.ModelViewSet):
+    queryset = MenuToOrder.objects.all()
+    serializer_class = MenuToOrderSerializer
+
+
 class UDOrderView(APIView):
 
-    def put(self,request, *args, **kwargs):
-        order = Order.objects.get(id=kwargs['pk'])
-        serializer = OrderSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'data':'success'})
+    # def put(self,request, *args, **kwargs):
+    #     order = Order.objects.get(id=kwargs['pk'])
+    #     serializer = OrderSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response({'data':'success'})
 
     def delete(self, request, *args, **kwargs):
         order = Order.objects.get(id=kwargs['pk'])
         order.delete()
-        return order
+        return Response({'data':"success"})
+
+
+class UpdateOrder(generics.UpdateAPIView):
+
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+
 
 
 
