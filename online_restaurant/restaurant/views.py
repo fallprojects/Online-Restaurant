@@ -56,6 +56,11 @@ class UpdateOrder(generics.UpdateAPIView):
     serializer_class = OrderSerializer
 
 
+class SalesView(viewsets.ModelViewSet):
+    queryset = MenuToOrder.objects.all()
+    serializer_class = MenuToOrderSerializer
+
+
 
 
 
