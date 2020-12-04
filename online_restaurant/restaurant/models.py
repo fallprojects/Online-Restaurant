@@ -38,11 +38,16 @@ class Order(models.Model):
     waiter = models.ForeignKey('Waiter', on_delete=models.SET_NULL, null=True)
 
 
-
 class MenuToOrder(models.Model):
     amounts = models.IntegerField(default=0)
     order = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True)
     meal = models.ForeignKey('Menu', on_delete=models.SET_NULL, null=True)
-    sales = models.BooleanField()
+    sales = models.BooleanField
     percent = models.IntegerField()
+    total_price = 0
+
+
+class Sales(models.Model):
+    percent = models.IntegerField()
+    order = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True)
 
