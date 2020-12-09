@@ -1,9 +1,22 @@
 from django.db import models
-
-
-
+from restaurant.models import *
 # Create your models here.
-from restaurant.models import Order
+
+
+
+class Customer(models.Model):
+    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=200, null=True)
+    surname = models.CharField(max_length=200,null=True)
+    phone = models.CharField(max_length=200,null=True)
+    email = models.CharField(max_length=200, null=True)
+    address = models.CharField(max_length=200,null=True)
+
+    def __str__(self):
+        return self.full_name
+
+
+
 
 
 class OrderToDelivery(models.Model):
