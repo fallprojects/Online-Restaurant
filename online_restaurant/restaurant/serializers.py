@@ -26,29 +26,32 @@ class OrderSerializer(serializers.ModelSerializer):
 class MenuToOrderSerializer(serializers.ModelSerializer):
     total_price = serializers.SerializerMethodField('get_total_price')
 
+
     class Meta:
         model = MenuToOrder
-        fields = ['id', 'order', 'amounts', 'meal', 'total_price', 'sales']
+        fields = ['id', 'order', 'amounts', 'meal', 'total_price', 'sales', 'percent']
 
     def get_total_price(self, order):
         total_price = 0
-
-        if self.data['sales']:
+        sales = 0
+        if 1:
             check_order = MenuToOrder.objects.filter(order=order.order)
             for order in check_order:
-                total_price += order.meal.price * order.amounts
-                sales = order.total_price - order.total_price * order.percent // 100
-                return sales
-            return total_price
+                total_price = order.meal.price * order.amounts
+                sales = total_price - total_price * order.percent // 100
+
+            return sales
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'password']
 
 
-
-
-
-
-
-
-
-
+    def create(self, validated_data):
+        password = self.validated_data.get('password')
+        user = User.objects.create(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user
