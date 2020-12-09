@@ -1,5 +1,5 @@
+from django.contrib.auth.models import User
 from django.db import models
-
 
 # Create your models here.
 
@@ -28,26 +28,22 @@ class Table(models.Model):
     table_number = models.IntegerField(default=0)
 
 
-class Waiter(models.Model):
-    waiter_name = models.CharField(max_length=50)
-
-
 class Order(models.Model):
-    table_number = models.ForeignKey('Table', on_delete=models.SET_NULL, null=True)
+    table_number = models.ForeignKey(Table, on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField(auto_now_add=True)
-    waiter = models.ForeignKey('Waiter', on_delete=models.SET_NULL, null=True)
+    waiter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
 
 class MenuToOrder(models.Model):
     amounts = models.IntegerField(default=0)
-    order = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True)
-    meal = models.ForeignKey('Menu', on_delete=models.SET_NULL, null=True)
-    sales = models.BooleanField
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    meal = models.ForeignKey(Menu, on_delete=models.SET_NULL, null=True)
+    sales = models.BooleanField()
     percent = models.IntegerField()
     total_price = 0
 
 
 class Sales(models.Model):
     percent = models.IntegerField()
-    order = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
 
