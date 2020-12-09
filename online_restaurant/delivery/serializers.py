@@ -1,6 +1,19 @@
 from rest_framework import serializers
 
-from .models import Address, OrderToDelivery
+from .models import *
+
+
+class CustomerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        fields = '__all__'
+
+    def create(self, validated_data):
+        password = self.validated_data.get('password')
+        user = User.objects.create(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user
 
 
 class EndPointSerializer(serializers.ModelSerializer):
